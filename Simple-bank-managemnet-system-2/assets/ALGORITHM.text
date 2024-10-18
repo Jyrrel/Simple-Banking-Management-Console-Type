@@ -1,0 +1,82 @@
+Algorithm
+Main Menu:
+
+Start the program by displaying the main menu:
+
+Option 1: Banking Menu
+Option 2: Log In
+Option 3: Exit
+If user selects:
+
+Option 1: Call the option() function (Banking Menu)
+Option 2: Call the login() function (Log In)
+Option 3: Exit the program
+Login Function (login):
+
+Prompt the user to enter the username and password.
+If the username and password are correct, display "Login Successful" and call the option() function.
+If login fails, display an error message and return to the main_menu().
+Banking Menu (option):
+
+Display options for various banking actions:
+
+Option 1: Create Account (createAccount())
+Option 2: View all Accounts (ViewAllAccount())
+Option 3: Deposit (Deposit())
+Option 4: Withdraw (Withdraw())
+Option 5: Update Account (Update())
+Option 6: Search (Search())
+Option 7: Delete Account (DeleteAccount())
+Option 8: Return to Main Menu (Exit())
+Based on the user's selection, call the corresponding function.
+
+Create Account (createAccount):
+
+Try opening the bank.bin file to find the last used account number.
+If the file doesn't exist, start the account number from 121000.
+Create a new account by prompting the user for their name, account type (saving or current), and initial deposit.
+Ensure that the minimum balance for a savings account is 5000 and for a current account is 2000.
+Save the new account to the bank.bin file.
+Return to the Banking Menu.
+View All Accounts (ViewAllAccount):
+
+Try opening the bank.bin file.
+If the file exists, read all accounts and display their details.
+If the file doesn't exist or is empty, display "No Records."
+Return to the Banking Menu.
+Deposit (Deposit):
+
+Open the bank.bin file and search for the account by its account number.
+If found, prompt the user to enter a deposit amount and update the account balance.
+Save the updated account information.
+Return to the Banking Menu.
+Withdraw (Withdraw):
+
+Open the bank.bin file and search for the account by its account number.
+If found, prompt the user to enter the withdrawal amount.
+Ensure the minimum balance is maintained for savings (5000) and current (2000) accounts.
+Save the updated account information.
+Return to the Banking Menu.
+Update Account (Update):
+
+Search for an account by account number.
+Allow the user to update:
+Name
+Account type (savings or current)
+Account balance
+Save the updated account information.
+Return to the Banking Menu.
+Delete Account (DeleteAccount):
+
+Search for an account by account number.
+If found, remove the account.
+Return to the Banking Menu.
+Search Account (Search):
+
+Search for an account by account number.
+If found, display the account details.
+Return to the Banking Menu.
+Exit (Exit):
+
+Return to the main_menu() function when the user selects to exit from the Banking Menu.
+Only exit the program when the user selects "Exit" from the Main Menu.
