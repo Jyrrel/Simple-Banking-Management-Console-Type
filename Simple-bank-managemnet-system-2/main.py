@@ -1,7 +1,7 @@
 import pickle
 import os
 
-# Predefined login credentials (can modify or extend this)
+# Predefined login credentials for initial access
 login_credentials = {'admin': 'admin123'}
 
 class Customer:
@@ -9,6 +9,11 @@ class Customer:
         self.name = input("Enter Name: ")
         self.type = input("Type of Account s/c?: ")
         self.amount = int(input("Enter Amount: "))
+        self.pin = input("Set a 4-digit PIN for this account: ")
+        while len(self.pin) != 4 or not self.pin.isdigit():
+            print("PIN must be exactly 4 digits.")
+            self.pin = input("Set a 4-digit PIN for this account: ")
+        
         while True:
             if self.type == 's':
                 if self.amount < 5000:
@@ -65,15 +70,20 @@ def Deposit():
     file = open('bank.bin', 'rb')
     file1 = open('tmp.bin', 'wb')
     x = int(input("Enter Bank Account: "))
+    deposited = False
     try:
         while True:
             t = pickle.load(file)
             if t.accountNo == x:
                 cr = int(input("Enter Deposit Amount: "))
-                t.amount = t.amount + cr
+                t.amount += cr
+                deposited = True
+                print(f"Successfully deposited {cr}. New Balance: {t.amount}")
+                print("Thank you for depositing!")
             pickle.dump(t, file1)
-    except:
-        pass
+    except EOFError:
+        if not deposited:
+            print("Account not found!")
     finally:
         file.close()
         file1.close()
@@ -190,66 +200,67 @@ def Search():
     option()
 
 
-def login():
-    print("Please log in:")
-    username = input("Enter username: ")
-    password = input("Enter password: ")
+def account_login():
+    print("Account Login")
+    account_no = int(input("Enter Account Number: "))
+    pin = input("Enter 4-digit PIN: ")
     
-    if username in login_credentials and login_credentials[username] == password:
-        print("Login Successful!")
-        option()  # Continue to the banking menu
-    else:
-        print("Invalid username or password!")
-        main_menu()  # Go back to the main menu
-
-
-def Exit():
-    main_menu()  # Go back to the main menu instead of exiting
-
-
-def option():
-    print()
-    print("What Do You Wanna Do\n1. Create Account\n2. View all Accounts\n3. Deposit\n4. Withdraw\n5. Update Account\n6. Search\n7. Delete Account\n8. Back to Main Menu")
-    n = int(input())
-    if n == 1:
-        createAccount()
-    elif n == 2:
-        ViewAllAccount()
-    elif n == 3:
-        Deposit()
-    elif n == 4:
-        Withdraw()
-    elif n == 5:
-        Update()
-    elif n == 6:
-        Search()
-    elif n == 7:
-        DeleteAccount()
-    elif n == 8:
-        Exit()
-    else:
-        print("Invalid option")
-        print("Try again")
-        option()
+    file = open('bank.bin', 'rb')
+    try:
+        while True:
+            t = pickle.load(file)
+            if t.accountNo == account_no and t.pin == pin:
+                print("Login Successful!")
+                option()  # Proceed to banking menu if login is successful
+                return
+    except EOFError:
+        print("Invalid account number or PIN!")
+    finally:
+        file.close()
+    main_menu()
 
 
 def main_menu():
     print("\nBANKING MANAGEMENT SYSTEM")
-    print("1. Banking Menu")
+    print("1. Create Account")
     print("2. Log In")
     print("3. Exit")
     
     choice = int(input("Enter your choice: "))
     if choice == 1:
-        option()
+        createAccount()
     elif choice == 2:
-        login()
+        account_login()
     elif choice == 3:
         print("Goodbye!")
         exit()  # Only exit the program in this option
     else:
         print("Invalid option!")
         main_menu()
+
+
+def option():
+    print()
+    print("What Do You Wanna Do\n1. View all Accounts\n2. Deposit\n3. Withdraw\n4. Update Account\n5. Search\n6. Delete Account\n7. Log Out")
+    n = int(input())
+    if n == 1:
+        ViewAllAccount()
+    elif n == 2:
+        Deposit()
+    elif n == 3:
+        Withdraw()
+    elif n == 4:
+        Update()
+    elif n == 5:
+        Search()
+    elif n == 6:
+        DeleteAccount()
+    elif n == 7:
+        main_menu()
+    else:
+        print("Invalid option")
+        print("Try again")
+        option()
 
 
 # Start the program by displaying the main menu
