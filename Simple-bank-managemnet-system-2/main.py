@@ -6,7 +6,12 @@ login_credentials = {'admin': 'admin123'}
 
 class Customer:
     def __init__(self, A):
+        # Ensure the name field is not empty
         self.name = input("Enter Name: ")
+        while not self.name.strip():  # Ensure name is not blank
+            print("Name cannot be blank.")
+            self.name = input("Enter Name: ")
+
         self.type = input("Type of Account s/c?: ")
         self.amount = int(input("Enter Amount: "))
         self.pin = input("Set a 4-digit PIN for this account: ")
